@@ -51,7 +51,7 @@ then
     echo "certbot certonly: start"
     echo "==============================================================================="
     certbot certonly --webroot -w /var/letsencrypt --agree-tos --keep -n --email $EMAIL -d $DOMAIN --server $SERVER --debug
-    echo "==============================================================================="    
+    echo "==============================================================================="
     echo "certbot certonly: done"
     HTTPMODE=1
 else
@@ -85,18 +85,14 @@ COUNT=$(grep ${DOMAIN} /etc/nginx/nginx.conf | wc -l)
 if [ $COUNT -eq 0 ];
 then
     echo -n " no, updating ... "
-    #determine the resolver to use
-    RESOLVER=$(grep nameserver /etc/resolv.conf | cut -d' ' -f2 | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
-
     sed -i -E 's/@@DOMAIN@@/'${DOMAIN}'/g' /configs/nginx-http-https.conf
-    sed -i -E 's/@@RESOLVER@@/'${RESOLVER}'/g' /configs/nginx-http-https.conf
     sed -i -E 's/@@BACKEND@@/'${BACKEND}'/g' /configs/nginx-http-https.conf
     echo " done"
-else 
+else
     echo " yes"
 fi
 
-echo -n "checking if nginx config is ok ... " 
+echo -n "checking if nginx config is ok ... "
 CHECK_RESULT=$(nginx -t -c /configs/nginx-http-https.conf 2>&1)
 
 if [ $? -ne 0 ];
@@ -106,7 +102,7 @@ then
     sleep 1
     kill -SIGTERM 1
     exit
-else 
+else
     echo " yes"
 fi
 
