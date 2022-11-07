@@ -8,7 +8,7 @@ COPY ./configs/nginx* /configs/
 COPY ./configs/supervisord.conf /etc/supervisord.conf
 ADD https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt /lets-encrypt-x3-cross-signed.pem
 
-RUN chmod +x /*.sh /*.py && \
+RUN chmod +x /*.sh && \
         mkdir -p /var/run/nginx/ && \
         mkdir -p /var/letsencrypt \
 
